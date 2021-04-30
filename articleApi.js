@@ -17,7 +17,8 @@ class articleApi {
             price: priceField.value,
             size: sizeField.value,
             location_id: locationDropdown.value,
-            category_id: categoryDropdown.value
+            category: categoryDropdown.value
+            
         }
         debugger
     
@@ -37,6 +38,13 @@ class articleApi {
                 const newArticle = new Article({id: article.id, ...article.attributes})
                 newArticle.attachToDom()
             })
+    }
+
+    addCategoryToDropDown(){
+        const option = document.createElement('option')
+        
+        option.innerText = this
+        categoryDropdown.append(option)
     }
 
         
