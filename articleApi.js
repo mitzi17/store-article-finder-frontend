@@ -40,12 +40,49 @@ class articleApi {
             })
     }
 
-    addCategoryToDropDown(){
-        const option = document.createElement('option')
+    static updateArticle(article){
         
-        option.innerText = this
-        categoryDropdown.append(option)
+        let {name, number, price, size, location_id, category} = article
+        const articleInfo = {
+            name,
+            number,
+            price,
+            size,
+            location_id: locationDropdown.value,
+            category
+        }
+
+        const configObj = {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(articleInfo)
+        }
+  
+        fetch(`${this.baseURL}/${article.id}`, configObj)
+        .then(r => r.json())
+        .then(json => {
+            article.renderArticle()
+        })
     }
+
+    static deleteArticle(id){
+        const configObj = {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            }
+        }
+        
+        fetch(`${this.baseURL}/${id}`, configObj)
+            .then(r => r.json())
+            .then(json => alert(json.message))
+    }
+
+    
 
         
 }
