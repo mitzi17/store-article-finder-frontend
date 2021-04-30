@@ -14,6 +14,7 @@ const categoryDropdown = document.getElementById("grid-category")
 
 
 
+
 newArticleForm.addEventListener("submit", handleFormSubmit)
 
 function handleFormSubmit(e) {
@@ -23,10 +24,11 @@ function handleFormSubmit(e) {
     form.reset()
 }
 
-
-
-
-
-   
-
 articleApi.fetchArticles()
+
+locationApi.fetchLocations()
+
+
+
+
+
