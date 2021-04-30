@@ -2,14 +2,14 @@ class Article {
 
     static all = [ ]
     //creates new artile instance
-    constructor({id, name, number, price, size, location_id, category_id}) {
+    constructor({id, name, number, price, size, location_id, category}) {
         this.id = id
         this.name = name
         this.number = number
         this.price = price
         this.size = size
         this.location_id = location_id
-        this.category_id = category_id
+        this.category = category
 
         this.element = document.createElement('div')
         this.element.id = `article-${id}`
@@ -50,7 +50,7 @@ class Article {
         pSize.appendChild(nodeSize)
 
         const pLocation = document.createElement('p')
-        const nodeLocation = document.createTextNode(`Location: ${this.location}`)
+        const nodeLocation = document.createTextNode(`Location: ${this.location_id}`)
         pLocation.appendChild(nodeLocation)
 
         const pCategory = document.createElement('p')
@@ -75,5 +75,7 @@ class Article {
     attachToDom() {
         attrList.append(this.renderArticle())
     }
+
+    
 
 }
