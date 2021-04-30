@@ -1,6 +1,7 @@
 class Article {
 
     static all = [ ]
+    static attrList = document.getElementById("article-attrs")
     //creates new artile instance
     constructor({id, name, number, price, size, location_id, category}) {
         this.id = id
@@ -59,12 +60,12 @@ class Article {
 
         const updateBtn = document.createElement('button')
         updateBtn.innerText = "Update"
-        updateBtn.setAttribute("class", "w-1/2 flex items-center justify-center rounded-md bg-black text-white")
+        updateBtn.setAttribute("class", "mt-1 w-1/2 flex items-center justify-center rounded-md bg-black text-white")
         updateBtn.setAttribute("id", `update-${this.id}`)
       
         const deleteBtn = document.createElement('button')
         deleteBtn.innerText = "Delete"
-        deleteBtn.setAttribute("class", "w-1/2 flex items-center justify-center rounded-md border border-gray-300")
+        deleteBtn.setAttribute("class", "mt-2 mb-5 w-1/2 flex items-center justify-center rounded-md border border-gray-300")
         deleteBtn.setAttribute("id", `delete-${this.id}`)
 
         this.element.append(pName, pPrice, pNumber, pSize, pLocation, pCategory, updateBtn, deleteBtn)
@@ -74,6 +75,55 @@ class Article {
 
     attachToDom() {
         attrList.append(this.renderArticle())
+    }
+
+    deleteArticle = (e) => {
+        this.element.remove()
+        articleApi.deleteArticle(this.id)
+    }
+
+    createUpdateFields = (updateBtn) =>{
+        
+        const divElement = updateBtn.parentElement
+        const pElement = updateBtn.parentElement.getElementsByTagName('p')
+
+        const name = pElement[0].innerText
+        const price = pElement[1].innerText
+        const number = pElement[2].innerText
+        const size = pElement[3].innerText
+        const location = pElement[4].innerText
+        const category = pElement[5].innerText
+        
+        // update the html and interpolate values:
+        divElement.innerHTML = `
+        <input type="text" name="name" class="edit-name" value="${name}">
+        <input type="number" name="price" class="edit-price" min="0" step=".01" value="${price}">
+        <input type="text" name="number" class="edit-number" value="${number}">
+        <input type="text" name="size" class="edit-number" value="${size}">
+        <input type="text" name="location" class="edit-number" value="${location}">
+        <input type="text" name="category" class="edit-number" value="${category}">
+        
+        `
+    }
+
+
+
+    static filterByLocation(filteredLocation) {
+        if (filteredLocation) {
+            const filteredArticles = Article.all.filter((article) => {
+                return article.location_id === parseInt(filteredLocation.id)
+            })
+            Article.attrList.innerHTML = ''
+            for (const article of filteredArticles) {
+            article.attachToDom()
+            }
+         } else {
+            Article.attrList.innerHTML = ''
+            for (const article of Article.all) {
+                article.attachToDom()
+                }
+         }
+         
     }
 
     
