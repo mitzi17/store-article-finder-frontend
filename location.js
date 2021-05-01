@@ -10,6 +10,7 @@ constructor({id, area }){
     this.active = false
 
     this.element = document.createElement('button')
+    this.element.setAttribute("class", "ml-5 tems-center justify-center rounded-md border border-gray-300")
 
     Location.all.push(this)
 }
@@ -42,10 +43,12 @@ setActiveLocation = (e) => {
             location.element.classList.remove('activated')
             location.active = false
         }
-        
     }) 
-    
     Article.filterByLocation(filteredLocation)
+}
+
+articles(){
+    return Article.all.filter((article) => article.location_id === parseInt(this.id))
 }
 
 addLocationToDropDown(){
