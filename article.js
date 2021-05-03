@@ -33,28 +33,36 @@ class Article {
     }
     // this updates the HTML
     renderArticle() {
+        const divAttributes = document.createElement('div')
+        divAttributes.setAttribute("id", "attributes-container")
 
         const pName = document.createElement('p')
+        pName.setAttribute("id", "name")
         const nodeName = document.createTextNode(`${this.name}`)
         pName.appendChild(nodeName)
 
         const pPrice = document.createElement('p')
+        pPrice.setAttribute("id", "price")
         const nodePrice = document.createTextNode(`${this.price}`)
         pPrice.appendChild(nodePrice)
 
         const pNumber = document.createElement('p')
+        pNumber.setAttribute("id", "number")
         const nodeNumber = document.createTextNode(`Number: ${this.number}`)
         pNumber.appendChild(nodeNumber)
 
         const pSize = document.createElement('p')
+        pSize.setAttribute("id", "size")
         const nodeSize = document.createTextNode(`Size: ${this.size}`)
         pSize.appendChild(nodeSize)
 
         const pLocation = document.createElement('p')
+        pLocation.setAttribute("id", "location")
         const nodeLocation = document.createTextNode(`Location: ${this.location_id}`)
         pLocation.appendChild(nodeLocation)
 
         const pCategory = document.createElement('p')
+        pCategory.setAttribute("id", "category")
         const nodeCategory = document.createTextNode(`Category: ${this.category}`)
         pCategory.appendChild(nodeCategory)
 
@@ -68,9 +76,10 @@ class Article {
         deleteBtn.setAttribute("class", "mt-2 mb-5 w-1/2 flex items-center justify-center rounded-md border border-gray-300")
         deleteBtn.setAttribute("id", `delete-${this.id}`)
 
-        this.element.append(pName, pPrice, pNumber, pSize, pLocation, pCategory, updateBtn, deleteBtn)
+        divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory)
+        this.element.append(divAttributes, updateBtn, deleteBtn)
         attrList.append(this.element)
-        return this.element
+        
     }
 
     attachToDom() {
@@ -84,15 +93,16 @@ class Article {
 
     createUpdateFields = (updateBtn) =>{
         
-        const divElement = updateBtn.parentElement
+       
+        const divElement = updateBtn.parentElement.getElementsByTagName('div')[0]
         const pElement = updateBtn.parentElement.getElementsByTagName('p')
-
-        const name = pElement[0].innerText
-        const price = pElement[1].innerText
-        const number = pElement[2].innerText
-        const size = pElement[3].innerText
-        const location = pElement[4].innerText
-        const category = pElement[5].innerText
+        
+        const name = pElement.name.innerText
+        const price = pElement.price.innerText
+        const number = pElement.number.innerText
+        const size = pElement.size.innerText
+        const location = pElement.location.innerText
+        const category = pElement.category.innerText
         
         // update the html and interpolate values:
         divElement.innerHTML = `
@@ -102,8 +112,18 @@ class Article {
         <input type="text" name="size" class="edit-number" value="${size}">
         <input type="text" name="location" class="edit-number" value="${location}">
         <input type="text" name="category" class="edit-number" value="${category}">
-        
         `
+    }
+
+    saveUpdatedArticle = () => {
+        this.name = this.element.querySelector("#name").value
+        this.name = this.element.querySelector("#price").value
+        this.number = this.element.querySelector("#number").value
+        this.size = this.element.querySelector("#size").value
+        this.location = this.element.querySelector("#location").value
+        this.category = this.element.querySelector("#category").value
+    
+        articleApi.updateArticle(this) // moved fetch to itemApi for separation of concerns
     }
 
 
