@@ -1,14 +1,16 @@
 class Article {
 
     static all = [ ]
-    static attrList = document.getElementById("article-attrs")
+    static containerList = document.getElementById("article-attrs")
+   //static divAttributes = document.getElementById("attributes-container")
     //creates new artile instance
-    constructor({id, name, number, price, size, location_id, category}) {
+    constructor({id, name, number, price, size, location, location_id, category}) {
         this.id = id
         this.name = name
         this.number = number
         this.price = price
         this.size = size
+        this.location = location
         this.location_id = location_id
         this.category = category
 
@@ -21,9 +23,11 @@ class Article {
     }
 
     articleFormClick = (e) => {
+        debugger
         if (e.target.innerText === "Update") {
             this.createUpdateFields(e.target)
             e.target.innerText = "Save"
+            debugger
         } else if (e.target.innerText === "Delete") {
             this.deleteArticle(e)
         } else if(e.target.innerText === "Save"){
@@ -58,7 +62,7 @@ class Article {
 
         const pLocation = document.createElement('p')
         pLocation.setAttribute("id", "location")
-        const nodeLocation = document.createTextNode(`Location: ${this.location_id}`)
+        const nodeLocation = document.createTextNode(`Location: ${this.location}`)
         pLocation.appendChild(nodeLocation)
 
         const pCategory = document.createElement('p')
@@ -79,6 +83,7 @@ class Article {
         divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory)
         this.element.append(divAttributes, updateBtn, deleteBtn)
         attrList.append(this.element)
+        
         
     }
 
@@ -132,13 +137,14 @@ class Article {
         if (filteredLocation) {
             const filteredArticles = Article.all.filter((article) => {
                 return article.location_id === parseInt(filteredLocation.id)
+               
             })
-            Article.attrList.innerHTML = ''
+            Article.containerList.innerHTML = ''
             for (const article of filteredArticles) {
             article.attachToDom()
             }
          } else {
-            Article.attrList.innerHTML = ''
+            Article.containerList.innerHTML = ''
             for (const article of Article.all) {
                 article.attachToDom()
                 }
