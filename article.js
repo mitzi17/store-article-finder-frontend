@@ -2,7 +2,7 @@ class Article {
 
     static all = [ ]
     static containerList = document.getElementById("article-attrs")
-   //static divAttributes = document.getElementById("attributes-container")
+   static divAttributes = document.getElementById("attributes-container")
     //creates new artile instance
     constructor({id, name, number, price, size, location, location_id, category}) {
         this.id = id
@@ -14,31 +14,18 @@ class Article {
         this.location_id = location_id
         this.category = category
 
-        this.element = document.createElement('div')
-        this.element.id = `article-${id}`
-        this.element.dataset.id = id
+        //this.element = document.createElement('div')
+        //this.element.id = `article-${id}`
+        //this.element.dataset.id = id
 
-        this.element.addEventListener('click', this.articleFormClick)
+        //this.element.addEventListener('click', this.articleFormClick)
         Article.all.push(this)
     }
-
-    articleFormClick = (e) => {
-        debugger
-        if (e.target.innerText === "Update") {
-            this.createUpdateFields(e.target)
-            e.target.innerText = "Save"
-            debugger
-        } else if (e.target.innerText === "Delete") {
-            this.deleteArticle(e)
-        } else if(e.target.innerText === "Save"){
-            this.saveUpdatedArticle()
-            e.target.innerText = "Update"
-        }
-    }
-    // this updates the HTML
+    
     renderArticle() {
         const divAttributes = document.createElement('div')
         divAttributes.setAttribute("id", "attributes-container")
+        divAttributes.setAttribute("class", "mt-2 border")
 
         const pName = document.createElement('p')
         pName.setAttribute("id", "name")
@@ -70,19 +57,11 @@ class Article {
         const nodeCategory = document.createTextNode(`Category: ${this.category}`)
         pCategory.appendChild(nodeCategory)
 
-        const updateBtn = document.createElement('button')
-        updateBtn.innerText = "Update"
-        updateBtn.setAttribute("class", "mt-1 w-1/2 flex items-center justify-center rounded-md bg-black text-white")
-        updateBtn.setAttribute("id", `update-${this.id}`)
-      
-        const deleteBtn = document.createElement('button')
-        deleteBtn.innerText = "Delete"
-        deleteBtn.setAttribute("class", "mt-2 mb-5 w-1/2 flex items-center justify-center rounded-md border border-gray-300")
-        deleteBtn.setAttribute("id", `delete-${this.id}`)
+        
 
         divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory)
-        this.element.append(divAttributes, updateBtn, deleteBtn)
-        attrList.append(this.element)
+        attrList.append(divAttributes)
+        //attrList.append(this.element)
         
         
     }
@@ -91,45 +70,7 @@ class Article {
         attrList.append(this.renderArticle())
     }
 
-    deleteArticle = (e) => {
-        this.element.remove()
-        articleApi.deleteArticle(this.id)
-    }
-
-    createUpdateFields = (updateBtn) =>{
-        
-       
-        const divElement = updateBtn.parentElement.getElementsByTagName('div')[0]
-        const pElement = updateBtn.parentElement.getElementsByTagName('p')
-        
-        const name = pElement.name.innerText
-        const price = pElement.price.innerText
-        const number = pElement.number.innerText
-        const size = pElement.size.innerText
-        const location = pElement.location.innerText
-        const category = pElement.category.innerText
-        
-        // update the html and interpolate values:
-        divElement.innerHTML = `
-        <input type="text" name="name" class="edit-name" value="${name}">
-        <input type="number" name="price" class="edit-price" min="0" step=".01" value="${price}">
-        <input type="text" name="number" class="edit-number" value="${number}">
-        <input type="text" name="size" class="edit-number" value="${size}">
-        <input type="text" name="location" class="edit-number" value="${location}">
-        <input type="text" name="category" class="edit-number" value="${category}">
-        `
-    }
-
-    saveUpdatedArticle = () => {
-        this.name = this.element.querySelector("#name").value
-        this.name = this.element.querySelector("#price").value
-        this.number = this.element.querySelector("#number").value
-        this.size = this.element.querySelector("#size").value
-        this.location = this.element.querySelector("#location").value
-        this.category = this.element.querySelector("#category").value
     
-        articleApi.updateArticle(this) // moved fetch to itemApi for separation of concerns
-    }
 
 
 
@@ -141,12 +82,13 @@ class Article {
             })
             Article.containerList.innerHTML = ''
             for (const article of filteredArticles) {
-            article.attachToDom()
+            article.renderArticle()
+            
             }
          } else {
             Article.containerList.innerHTML = ''
             for (const article of Article.all) {
-                article.attachToDom()
+                article.renderArticle()
                 }
          }
          
