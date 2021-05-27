@@ -59,32 +59,18 @@ class Article {
         const nodeCategory = document.createTextNode(`Category: ${this.category}`)
         pCategory.appendChild(nodeCategory)
 
-        const deleteBtn = document.createElement('button')
-        deleteBtn.innerText = "Delete"
-        deleteBtn.setAttribute("class", "mb-3 w-1/2 flex items-center justify-center rounded-md bg-black text-white")
-        deleteBtn.setAttribute("id", `delete-${this.id}`)
-        deleteBtn.addEventListener('click', this.deleteArticle)
+        
 
-        divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory, deleteBtn)
+        divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory)
         attrList.append(divAttributes)
-      
-        //attrList.append(this.element)
-        
-        
+         
     }
 
     attachToDom() {
         attrList.append(this.renderArticle())
     }
 
-    deleteArticle = (e) => {
-        e.preventDefault(e)
-        
-        
-        this.element.remove()
-        articleApi.deleteArticle(this.id)
-       
-    }
+    
 
     
 
