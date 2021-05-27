@@ -38,7 +38,7 @@ class articleApi {
             .then(newArticleData => {
                 
                 
-                const newArticle = new Article({id: newArticleData.id, name: newArticleData.name, number: newArticleData.number, price: newArticleData.price, size: newArticleData.size, category: newArticleData.category, location_id: newArticleData.location_id, location: newArticleData.location})
+                const newArticle = new Article({id: newArticleData.id, name: newArticleData.name, number: newArticleData.number, price: newArticleData.price, size: newArticleData.size, category: newArticleData.category, location_id: newArticleData.location_id, location: newArticleData.location.area})
                 newArticle.renderArticle()
                 newArticleForm.reset()
             })
@@ -56,6 +56,7 @@ class articleApi {
         fetch(`${this.baseURL}/${id}`, configObj)
             .then(r => r.json())
             .then(json => alert(json.message))
+            
     }
 
 
