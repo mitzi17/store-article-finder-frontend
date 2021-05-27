@@ -5,6 +5,7 @@ class articleApi {
         fetch(this.baseURL)
         .then(response => response.json())
         .then(dataArray => dataArray["data"].forEach(article => { 
+            
         const newArticle = new Article({id: article.id, ...article.attributes})
         
         newArticle.renderArticle()
@@ -19,7 +20,9 @@ class articleApi {
             size: sizeField.value,
             category: categoryField.value,
             location_id: locationDropdown.value,
+            location: locationDropdown.selectedOptions[0].innerText
             }
+            
         
         const configObj = {
             method: 'POST', 
@@ -32,13 +35,28 @@ class articleApi {
     
         fetch(this.baseURL, configObj)
             .then(response => response.json())
-            .then(data => {
-                const article = data.data
-                debugger
-                const newArticle = new Article({id: article.id, ...article.attributes})
-                debugger
+            .then(newArticleData => {
+                
+                
+                const newArticle = new Article({id: newArticleData.id, name: newArticleData.name, number: newArticleData.number, price: newArticleData.price, size: newArticleData.size, category: newArticleData.category, location_id: newArticleData.location_id, location: newArticleData.location})
                 newArticle.renderArticle()
+                newArticleForm.reset()
             })
     }
+
+    static deleteArticle(id){
+        const configObj = {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            }
+        }
+        
+        fetch(`${this.baseURL}/${id}`, configObj)
+            .then(r => r.json())
+            .then(json => alert(json.message))
+    }
+
 
 }
