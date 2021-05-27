@@ -36,7 +36,7 @@ class Article {
 
         const pPrice = document.createElement('p')
         pPrice.setAttribute("id", "price")
-        const nodePrice = document.createTextNode(`${this.price}`)
+        const nodePrice = document.createTextNode(`$ ${this.price}`)
         pPrice.appendChild(nodePrice)
 
         const pNumber = document.createElement('p')
@@ -46,7 +46,7 @@ class Article {
 
         const pSize = document.createElement('p')
         pSize.setAttribute("id", "size")
-        const nodeSize = document.createTextNode(`Size: ${this.size}`)
+        const nodeSize = document.createTextNode(`Size Availability: ${this.size}`)
         pSize.appendChild(nodeSize)
 
         const pLocation = document.createElement('p')
@@ -81,9 +81,9 @@ class Article {
         e.preventDefault(e)
         
         
-        
-        articleApi.deleteArticle(this.id)
         this.element.remove()
+        articleApi.deleteArticle(this.id)
+       
     }
 
     
