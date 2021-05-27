@@ -13,14 +13,16 @@ class Article {
         this.location = location
         this.location_id = location_id
         this.category = category
+      
+        this.element = document.createElement('div')
+        this.element.id = `article-${id}`
+        this.element.dataset.id = id
 
-        //this.element = document.createElement('div')
-        //this.element.id = `article-${id}`
-        //this.element.dataset.id = id
-
-        //this.element.addEventListener('click', this.articleFormClick)
+       
         Article.all.push(this)
     }
+
+    
     
     renderArticle() {
         const divAttributes = document.createElement('div')
@@ -57,10 +59,15 @@ class Article {
         const nodeCategory = document.createTextNode(`Category: ${this.category}`)
         pCategory.appendChild(nodeCategory)
 
-        
+        const deleteBtn = document.createElement('button')
+        deleteBtn.innerText = "Delete"
+        deleteBtn.setAttribute("class", "mb-3 w-1/2 flex items-center justify-center rounded-md bg-black text-white")
+        deleteBtn.setAttribute("id", `delete-${this.id}`)
+        deleteBtn.addEventListener('click', this.deleteArticle)
 
-        divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory)
+        divAttributes.append(pName, pPrice, pNumber, pSize, pLocation, pCategory, deleteBtn)
         attrList.append(divAttributes)
+      
         //attrList.append(this.element)
         
         
@@ -68,6 +75,15 @@ class Article {
 
     attachToDom() {
         attrList.append(this.renderArticle())
+    }
+
+    deleteArticle = (e) => {
+        e.preventDefault(e)
+        
+        
+        
+        articleApi.deleteArticle(this.id)
+        this.element.remove()
     }
 
     
