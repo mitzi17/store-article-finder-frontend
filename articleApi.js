@@ -44,20 +44,7 @@ class articleApi {
             })
     }
 
-    static deleteArticle(id){
-        const configObj = {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            }
-        }
-        
-        fetch(`${this.baseURL}/${id}`, configObj)
-            .then(r => r.json())
-            .then(json => alert(json.message))
-            
-    }
+    
 
 
 }
