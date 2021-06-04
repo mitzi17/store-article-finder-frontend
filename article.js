@@ -70,13 +70,25 @@ class Article {
         attrList.append(this.renderArticle())
     }
 
-    
+   static sortArticles() {
+    let sortedArticles = [ ]
+    sortedArticles = Article.all.sort(function(a, b) {
+        let nameA = a.name.toLowerCase()
+        let nameB = b.name.toLowerCase()
+        
+        if (nameA < nameB)
+            return -1 
+        if (nameA > nameB)
+            return 1
+        return 0 
+    })
+    Article.containerList.innerHTML = ''
+    for(const article of sortedArticles) {
+        article.renderArticle()
+    }
+}
 
-    
-
-
-
-    static filterByLocation(filteredLocation) {
+ static filterByLocation(filteredLocation) {
         if (filteredLocation) {
             const filteredArticles = Article.all.filter((article) => {
                 return article.location_id === parseInt(filteredLocation.id)
